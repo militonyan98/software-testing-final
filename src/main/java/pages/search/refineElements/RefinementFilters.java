@@ -8,7 +8,7 @@ import pages.base.POMBase;
 public class RefinementFilters {
 
 
-    private WebElement mWebElement;
+    private final WebElement mWebElement;
 
     By mTitleSelector = By.cssSelector("h2");
 
@@ -22,5 +22,9 @@ public class RefinementFilters {
 
     public String getTitle() {
         return mTitle;
+    }
+
+    public WebElement getWebElement() {
+        return mWebElement;
     }
 }

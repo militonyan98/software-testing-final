@@ -4,9 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.base.POMBase;
+import pages.search.refineElements.brandsElement.BrandFilter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RefinementBar extends POMBase {
     public RefinementBar(WebDriver driver) {
@@ -25,5 +27,14 @@ public class RefinementBar extends POMBase {
             refinementFilters.add(filter);
         }
         return  refinementFilters;
+    }
+
+    public BrandFilter getBrandFilter(){
+        for(var filter : getRefinementFilters()){
+            if(filter.getTitle().toLowerCase(Locale.ROOT).equals("brand")){
+                return new BrandFilter(filter.getWebElement());
+            }
+        }
+        return null;
     }
 }

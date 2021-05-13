@@ -69,6 +69,7 @@ public class SearchTest extends BaseTests {
     }
 
     private void TestBrandSelection(SearchPage searchPage){
-        var elements = searchPage.refinementBar().getRefinementFilters();
+        var elements = searchPage.refinementBar().getBrandFilter().getOptions();
+        System.out.println("Number of brands " + elements.size());
     }
 }
