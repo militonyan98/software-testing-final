@@ -17,8 +17,12 @@ import pages.HomePage;
 import utils.EventListener;
 import utils.WindowManager;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+
+import static org.testng.Assert.assertTrue;
+
 
 public class BaseTests {
 
@@ -62,9 +66,7 @@ public class BaseTests {
         }
     }
 
-   /* public WindowManager getWindowManager(){
-        return new WindowManager(driver);
-    }*/
+
 
     private ChromeOptions getChromeOptions(){
         ChromeOptions options = new ChromeOptions();
@@ -78,5 +80,22 @@ public class BaseTests {
                 .domain("the-internet.herokuapp.com")
                 .build();
         driver.manage().addCookie(cookie);
+    }
+
+
+    public void assertMore(int value, int compareTo, @Nullable String message){
+        assertTrue(value>compareTo, message);
+    }
+
+    public void assertMoreOrEquals(int value, int compareTo, @Nullable String message){
+        assertTrue(value>=compareTo, message);
+    }
+
+    public void assertLess(int value, int compareTo,@Nullable String message){
+        assertTrue(value<compareTo, message);
+    }
+
+    public void assertLessOrEquals(int value, int compareTo, @Nullable String message){
+        assertTrue(value<=compareTo, message);
     }
 }

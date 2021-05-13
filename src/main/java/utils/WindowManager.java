@@ -1,15 +1,18 @@
 package utils;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class WindowManager {
 
     private WebDriver driver;
     private WebDriver.Navigation navigate;
+    private JavascriptExecutor jsExecutor;
 
     public WindowManager(WebDriver driver){
         this.driver = driver;
         navigate = driver.navigate();
+        jsExecutor = (JavascriptExecutor) driver;
     }
 
     public void goBack(){
@@ -27,6 +30,16 @@ public class WindowManager {
     public void goTo(String url){
         navigate.to(url);
     }
+
+    public void scrollDown(){
+        jsExecutor.executeScript("window.scrollBy(0,1000)");
+    }
+
+    public void scrollUp(){
+        jsExecutor.executeScript("window.scrollBy(0,-1000)");
+    }
+
+
 
     public void switchToTab(String tabTitle){
         var windows = driver.getWindowHandles();

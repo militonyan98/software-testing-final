@@ -18,4 +18,13 @@ public class POMBase {
     public String getURL(){
         return mDriver.getCurrentUrl();
     }
+
+    public void print(String s){
+        System.out.println(s);
+    }
+
+    public void print(int s){
+        System.out.println(s);
+    }
+
 }
