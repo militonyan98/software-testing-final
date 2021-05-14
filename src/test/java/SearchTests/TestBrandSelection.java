@@ -7,8 +7,7 @@ import utils.Helpers;
 
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.*;
 
 public class TestBrandSelection extends SearchTestBase {
     @Test
@@ -32,6 +31,5 @@ public class TestBrandSelection extends SearchTestBase {
 
         }
     }
-
 
 }
