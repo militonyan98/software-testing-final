@@ -1,13 +1,7 @@
 package SearchTests;
 
-import base.BaseTests;
 import org.testng.annotations.Test;
 import pages.search.SearchPage;
-import utils.Helpers;
-
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 public class TestBrandSelection extends SearchTestBase {
     @Test
