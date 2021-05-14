@@ -8,6 +8,7 @@ import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Helpers {
     public static Map<String, String> splitQuery(URL url) throws UnsupportedEncodingException {
@@ -33,5 +34,11 @@ public class Helpers {
         }
 
         return true;
+    }
+
+    public static int randomNumber(int min, int max){
+        Random random = new Random();
+        int difference = max-min;
+        return random.nextInt(difference)+min;
     }
 }

@@ -3,6 +3,8 @@ package pages.search;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import pages.Products.ProductPage;
 import pages.base.POMBase;
 import pages.search.refineElements.RefinementBar;
 import pages.search.refineElements.RefinementFilters;
@@ -23,7 +25,7 @@ public class SearchPage extends POMBase {
         List<SearchItem> items = new ArrayList<>();
         List<WebElement> webElements = mDriver.findElements(searchElement);
         for(WebElement elem : webElements){
-            var si = new SearchItem(elem);
+            var si = new SearchItem(elem, mDriver);
             if(si.getIsValid())
                 items.add(si);
             else break;
@@ -35,7 +37,7 @@ public class SearchPage extends POMBase {
         return new RefinementBar(mDriver);
     }
 
-    public class SearchItem {
+    public class SearchItem extends POMBase {
 
         WebElement mCurrentElement;
 
@@ -45,7 +47,8 @@ public class SearchPage extends POMBase {
         private final String mSkuProductProductName = "sku_item_name";
         private final String mDataAt = "data-at";
 
-        public SearchItem(WebElement element){
+        public SearchItem(WebElement element, WebDriver driver){
+            super(driver);
             mCurrentElement = element;
             try
             {
@@ -77,7 +80,22 @@ public class SearchPage extends POMBase {
         }
 
 
+        public ProductPage clickOnProduct(){
+            try
+            {
+                WebElement productDesc = mCurrentElement.findElement(productDescription);
+                Actions builder = new Actions(mDriver);
 
+                builder.moveToElement(productDesc);
+                builder.build().perform();
+                productDesc.click();
+                return new ProductPage(mDriver);
+            }
+            catch (Exception ignored){
+                return  null;
+            }
+
+        }
 
         @Override
         public String toString() {

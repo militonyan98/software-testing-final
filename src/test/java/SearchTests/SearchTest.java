@@ -12,7 +12,7 @@ import utils.Helpers;
 import static org.testng.Assert.*;
 
 
-public class SearchTest extends BaseTests {
+public class SearchTest extends SearchTestBase {
     @Test
     public void TestSearching(){
 
@@ -55,90 +55,4 @@ public class SearchTest extends BaseTests {
 
 
     }
-
-    @Test
-    public void TestBrandSelectionFunctionality(){
-        //checking for login popup
-        var loginPage = homePage.login();
-        if(loginPage.isDisplayed()){
-            loginPage.closePage();
-        }
-
-        String query = "gloss";
-
-        SearchPage sp = homePage.searchBar().Search(query);
-
-        try
-        {
-            TestBrandSelection(sp);
-        }
-        catch (Exception ignored)
-        {
-
-        }
-    }
-
-    private List<SearchPage.SearchItem> TestBrandSelection(SearchPage searchPage) throws InterruptedException {
-        var brandFilter = searchPage.refinementBar().getBrandFilter();
-        var elements = brandFilter.getOptions();
-
-        System.out.println("Number of brands " + elements.size());
-
-        var element = elements.get(0);
-        String name = element.getBrandName();
-        System.out.println("Checking for brand name: "+name);
-        element.select();
-        var items = searchPage.getItems();
-        for(var result : searchPage.getItems()) {
-            assertEquals(result.getBrandName(), name, "Failed for brand name: " + name);
-        }
-        return items;
-    }
-
-    private List<SearchPage.SearchItem> TestResetInner(SearchPage page) throws InterruptedException {
-        var elementsBeforeReset = page.getItems();
-
-        page.refinementBar().resetAll();
-
-        Thread.sleep(1500);
-
-        var elementsAfterReset = page.getItems();
-
-        var same = Helpers.Same(elementsBeforeReset, elementsAfterReset);
-
-        assertFalse(same, "Reset filter took no effect");
-
-        return elementsAfterReset;
-    }
-
-    @Test
-    public void TestReset(){
-        //checking for login popup
-        var loginPage = homePage.login();
-        if(loginPage.isDisplayed()){
-            loginPage.closePage();
-        }
-
-        String query = "gloss";
-
-        SearchPage sp = homePage.searchBar().Search(query);
-
-        var itemsBeforeFilter = sp.getItems();
-
-        try
-        {
-            TestBrandSelection(sp);
-
-            var elementsAfterReset = TestResetInner(sp);
-
-            var same = Helpers.Same(elementsAfterReset, itemsBeforeFilter);
-
-            assertTrue(same,"Different results before and after reset");
-
-        }
-        catch(Exception inner){}
-    }
-
-
-
 }

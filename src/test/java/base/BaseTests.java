@@ -30,6 +30,7 @@ public class BaseTests {
     private final String HOME_PAGE = "https://sephora.com";
     protected HomePage homePage;
     protected WindowManager windowManager;
+    protected boolean closeAfterFinishing = true;
 
     @BeforeClass
     public void setUp(){
@@ -49,7 +50,8 @@ public class BaseTests {
 
     @AfterClass
     public void tearDown(){
-        driver.quit();
+        if(closeAfterFinishing)
+            driver.quit();
     }
 
     @AfterMethod
