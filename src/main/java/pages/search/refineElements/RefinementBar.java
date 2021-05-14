@@ -16,6 +16,13 @@ public class RefinementBar extends POMBase {
     }
 
     By mRefinementFiltersSelector = By.cssSelector("div[data-comp*='RefinementBoxFS']");
+    By mResetAllFilter = By.cssSelector("button[data-at*='reset_all']");
+
+    public void resetAll(){
+        print("Resetting filters");
+        WebElement resetButton = $(mResetAllFilter);
+        resetButton.click();
+    }
 
     public List<RefinementFilters> getRefinementFilters(){
         List<RefinementFilters> refinementFilters = new ArrayList<>();
@@ -32,7 +39,7 @@ public class RefinementBar extends POMBase {
     public BrandFilter getBrandFilter(){
         for(var filter : getRefinementFilters()){
             if(filter.getTitle().toLowerCase(Locale.ROOT).equals("brand")){
-                return new BrandFilter(filter.getWebElement());
+                return new BrandFilter(filter.getWebElement(), mDriver);
             }
         }
         return null;

@@ -4,9 +4,10 @@ import base.BaseTests;
 import org.testng.annotations.Test;
 import pages.search.SearchPage;
 
+import java.util.List;
 import java.util.Locale;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 
 public class SearchTest extends BaseTests {
@@ -65,11 +66,89 @@ public class SearchTest extends BaseTests {
 
         SearchPage sp = homePage.searchBar().Search(query);
 
-        TestBrandSelection(sp);
+        try
+        {
+            TestBrandSelection(sp);
+        }
+        catch (Exception ignored)
+        {
+
+        }
     }
 
-    private void TestBrandSelection(SearchPage searchPage){
-        var elements = searchPage.refinementBar().getBrandFilter().getOptions();
+    private List<SearchPage.SearchItem> TestBrandSelection(SearchPage searchPage) throws InterruptedException {
+        var brandFilter = searchPage.refinementBar().getBrandFilter();
+        var elements = brandFilter.getOptions();
+
         System.out.println("Number of brands " + elements.size());
+
+        var element = elements.get(0);
+        String name = element.getBrandName();
+        System.out.println("Checking for brand name: "+name);
+        element.select();
+        var items = searchPage.getItems();
+        for(var result : searchPage.getItems()) {
+            assertEquals(result.getBrandName(), name, "Failed for brand name: " + name);
+        }
+        return items;
+    }
+
+    private List<SearchPage.SearchItem> TestResetInner(SearchPage page) throws InterruptedException {
+        var elementsBeforeReset = page.getItems();
+
+        page.refinementBar().resetAll();
+
+        Thread.sleep(1500);
+
+        var elementsAfterReset = page.getItems();
+
+        var same = Same(elementsBeforeReset, elementsAfterReset);
+
+        assertFalse(same, "Reset filter took no effect");
+
+        return elementsAfterReset;
+    }
+
+    @Test
+    public void TestReset(){
+        //checking for login popup
+        var loginPage = homePage.login();
+        if(loginPage.isDisplayed()){
+            loginPage.closePage();
+        }
+
+        String query = "gloss";
+
+        SearchPage sp = homePage.searchBar().Search(query);
+
+        var itemsBeforeFilter = sp.getItems();
+
+        try
+        {
+            TestBrandSelection(sp);
+
+            var elementsAfterReset = TestResetInner(sp);
+
+            var same = Same(elementsAfterReset, itemsBeforeFilter);
+
+            assertTrue(same,"Different results before and after reset");
+
+        }
+        catch(Exception inner){}
+    }
+
+
+    private boolean Same(List<SearchPage.SearchItem> list1, List<SearchPage.SearchItem> list2){
+        if(list1.size()!=list2.size())
+            return false;
+
+        for(int i=0; i < list1.size();i++){
+            if(!list1.get(i)
+                    .equals(list2.get(i))){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

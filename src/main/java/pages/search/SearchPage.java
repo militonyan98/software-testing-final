@@ -9,6 +9,7 @@ import pages.search.refineElements.RefinementFilters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SearchPage extends POMBase {
 
@@ -106,6 +107,19 @@ public class SearchPage extends POMBase {
 
         public String getItemName(){
             return mItemName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof SearchItem)) return false;
+            SearchItem that = (SearchItem) o;
+            return Objects.equals(mBrandName, that.mBrandName) && Objects.equals(mItemName, that.mItemName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(mBrandName, mItemName);
         }
     }
 }

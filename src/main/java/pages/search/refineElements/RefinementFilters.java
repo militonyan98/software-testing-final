@@ -15,7 +15,6 @@ public class RefinementFilters {
     public RefinementFilters(WebElement we) {
         mWebElement = we;
         mTitle = mWebElement.findElement(mTitleSelector).getText();
-        System.out.println(mTitle);
     }
 
     private final String mTitle;
