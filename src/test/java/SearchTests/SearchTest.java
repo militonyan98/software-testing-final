@@ -7,6 +7,8 @@ import pages.search.SearchPage;
 import java.util.List;
 import java.util.Locale;
 
+import utils.Helpers;
+
 import static org.testng.Assert.*;
 
 
@@ -102,7 +104,7 @@ public class SearchTest extends BaseTests {
 
         var elementsAfterReset = page.getItems();
 
-        var same = Same(elementsBeforeReset, elementsAfterReset);
+        var same = Helpers.Same(elementsBeforeReset, elementsAfterReset);
 
         assertFalse(same, "Reset filter took no effect");
 
@@ -129,7 +131,7 @@ public class SearchTest extends BaseTests {
 
             var elementsAfterReset = TestResetInner(sp);
 
-            var same = Same(elementsAfterReset, itemsBeforeFilter);
+            var same = Helpers.Same(elementsAfterReset, itemsBeforeFilter);
 
             assertTrue(same,"Different results before and after reset");
 
@@ -138,17 +140,5 @@ public class SearchTest extends BaseTests {
     }
 
 
-    private boolean Same(List<SearchPage.SearchItem> list1, List<SearchPage.SearchItem> list2){
-        if(list1.size()!=list2.size())
-            return false;
 
-        for(int i=0; i < list1.size();i++){
-            if(!list1.get(i)
-                    .equals(list2.get(i))){
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
